@@ -7,8 +7,8 @@ import 'package:weather_app/data/datasources/weather_service/responses/get_weath
 import 'package:weather_app/data/datasources/weather_service/responses/hour_json.dart';
 import 'package:weather_app/data/datasources/weather_service/weather_service.dart';
 import 'package:weather_app/data/datasources/weather_service/weather_service_interceptor.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/day_weather.dart';
-import 'package:weather_app/domain/models/location.dart';
 import 'package:weather_app/domain/models/weather.dart';
 import 'package:weather_app/domain/models/current_weather_forecast.dart';
 import 'package:weather_app/domain/models/weather_metrics.dart';
@@ -29,17 +29,14 @@ class WeatherRepositoryImpl implements WeatherRepository {
   }
 
   @override
-  Future<CurrentWeatherForecast?> getCurrentWeather({
-    required double latitude,
-    required double longitude,
-  }) async {
+  Future<CurrentWeatherForecast?> getCurrentWeather(Coordinates coordinates) async {
     late final GetWeatherResponse response;
 
     try {
       response = await weatherService.getWeather(
         LatitudeLongitude(
-          latitude: latitude,
-          longitude: longitude,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
         ),
         1,
       );
@@ -76,17 +73,14 @@ class WeatherRepositoryImpl implements WeatherRepository {
   }
 
   @override
-  Future<WeeklyWeatherForecast?> getWeeklyWeather({
-    required double latitude,
-    required double longitude,
-  }) async {
+  Future<WeeklyWeatherForecast?> getWeeklyWeather(Coordinates coordinates) async {
     late final GetWeatherResponse response;
 
     try {
       response = await weatherService.getWeather(
         LatitudeLongitude(
-          latitude: latitude,
-          longitude: longitude,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
         ),
         7,
       );

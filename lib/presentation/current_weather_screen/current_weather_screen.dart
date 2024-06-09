@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/presentation/weekly_weather_screen/weekly_weather_screen.dart';
-import 'package:weather_app/presentation/widgets/title_widget.dart';
-import 'package:weather_app/presentation/weather_screen/hourly_weather_item_widget.dart';
+import 'package:weather_app/presentation/widgets/icon_title_widget.dart';
+import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_widget.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
-import 'package:weather_app/presentation/weather_screen/hourly_weather_item_data.dart';
-import 'package:weather_app/presentation/weather_screen/weather_bloc/weather_bloc.dart';
-import 'package:weather_app/presentation/weather_screen/weather_metrics_widget.dart';
+import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
+import 'package:weather_app/presentation/current_weather_screen/current_weather_bloc/current_weather_bloc.dart';
+import 'package:weather_app/presentation/current_weather_screen/weather_metrics_widget.dart';
 import 'package:weather_app/utils/translation_helper_extensions/weather_condition_translator_x.dart';
 
-class WeatherScreen extends StatelessWidget {
-  const WeatherScreen({
+class CurrentWeatherScreen extends StatelessWidget {
+  const CurrentWeatherScreen({
     super.key,
-    required this.latitude,
-    required this.longitude,
+    required this.coordinates,
   });
 
-  final double latitude;
-  final double longitude;
+  final Coordinates coordinates;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocProvider(
-        create: (context) => WeatherBloc(
-          latitude: latitude,
-          longitude: longitude,
+        create: (context) => CurrentWeatherBloc(
+          coordinates: coordinates,
         ),
-        child: BlocBuilder<WeatherBloc, WeatherState>(
+        child: BlocBuilder<CurrentWeatherBloc, CurrentWeatherState>(
           builder: (context, state) {
             switch (state) {
               case WeatherLoading():
@@ -44,7 +42,7 @@ class WeatherScreen extends StatelessWidget {
             }
             return Scaffold(
               appBar: AppBar(
-                title: TitleWidget(
+                title: IconTitleWidget(
                   title: state.forecast.location.city,
                   icon: Icons.location_on,
                 ),
@@ -147,8 +145,7 @@ class WeatherScreen extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => WeeklyWeatherScreen(
-          latitude: latitude,
-          longitude: longitude,
+          coordinates: coordinates,
         ),
       ),
     );

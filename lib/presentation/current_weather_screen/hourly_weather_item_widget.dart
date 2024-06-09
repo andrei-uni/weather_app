@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
-import 'package:weather_app/presentation/weather_screen/hourly_weather_item_data.dart';
+import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
 
 class HourlyWeatherItemWidget extends StatelessWidget {
   const HourlyWeatherItemWidget({

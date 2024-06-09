@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather_app/presentation/weather_screen/weather_screen.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
+import 'package:weather_app/presentation/current_weather_screen/current_weather_screen.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -18,9 +19,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       darkTheme: theme,
       themeMode: ThemeMode.dark,
-      home: const WeatherScreen(
-        latitude: 55.741439,
-        longitude: 37.621902,
+      home: const CurrentWeatherScreen(
+        coordinates: Coordinates(
+          latitude: 55.741439,
+          longitude: 37.621902,
+        ),
       ),
     );
   }

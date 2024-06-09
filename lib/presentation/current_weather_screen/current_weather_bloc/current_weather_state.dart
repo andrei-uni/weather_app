@@ -1,13 +1,13 @@
-part of 'weather_bloc.dart';
+part of 'current_weather_bloc.dart';
 
-sealed class WeatherState {}
+sealed class CurrentWeatherState {}
 
-final class WeatherLoading extends WeatherState {}
+final class WeatherLoading extends CurrentWeatherState {}
 
 //TODO
-final class WeatherLoadFail extends WeatherState {}
+final class WeatherLoadFail extends CurrentWeatherState {}
 
-final class WeatherLoadSuccess extends WeatherState {
+final class WeatherLoadSuccess extends CurrentWeatherState {
   WeatherLoadSuccess({
     required this.forecast,
     required this.hourlyWeatherPageController,

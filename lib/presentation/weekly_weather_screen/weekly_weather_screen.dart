@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/presentation/weekly_weather_screen/daily_weather_item_data.dart';
-import 'package:weather_app/presentation/widgets/title_widget.dart';
+import 'package:weather_app/presentation/widgets/icon_title_widget.dart';
 import 'package:weather_app/presentation/weekly_weather_screen/daily_weather_item_widget.dart';
 import 'package:weather_app/presentation/weekly_weather_screen/weekly_weather_bloc/weekly_weather_bloc.dart';
 
 class WeeklyWeatherScreen extends StatelessWidget {
   const WeeklyWeatherScreen({
     super.key,
-    required this.latitude,
-    required this.longitude,
+    required this.coordinates,
   });
 
-  final double latitude;
-  final double longitude;
+  final Coordinates coordinates;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const TitleWidget(
+          title: const IconTitleWidget(
             title: '7 days',
             icon: Icons.calendar_today,
           ),
@@ -28,8 +27,7 @@ class WeeklyWeatherScreen extends StatelessWidget {
         ),
         body: BlocProvider(
           create: (context) => WeeklyWeatherBloc(
-            latitude: latitude,
-            longitude: longitude,
+            coordinates: coordinates,
           ),
           child: BlocBuilder<WeeklyWeatherBloc, WeeklyWeatherState>(
             builder: (context, state) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/data/repositories/weather_repository_impl.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/day_weather.dart';
 import 'package:weather_app/domain/models/weekday.dart';
 import 'package:weather_app/domain/repositories/weather_repository.dart';
@@ -13,23 +14,20 @@ part 'weekly_weather_state.dart';
 
 class WeeklyWeatherBloc extends Bloc<WeeklyWeatherEvent, WeeklyWeatherState> {
   WeeklyWeatherBloc({
-    required this.latitude,
-    required this.longitude,
+    required this.coordinates,
   }) : super(WeatherLoading()) {
     on<LoadWeather>(_loadWeather);
 
     add(LoadWeather());
   }
 
-  final double latitude;
-  final double longitude;
+  final Coordinates coordinates;
 
   final WeatherRepository weatherRepository = WeatherRepositoryImpl();
 
   void _loadWeather(LoadWeather event, Emitter<WeeklyWeatherState> emit) async {
     final weeklyWeather = await weatherRepository.getWeeklyWeather(
-      latitude: latitude,
-      longitude: longitude,
+      coordinates,
     );
 
     if (weeklyWeather == null) {

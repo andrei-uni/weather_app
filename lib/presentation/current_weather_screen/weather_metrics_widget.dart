@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/presentation/weather_screen/weather_metric_item.dart';
+import 'package:weather_app/presentation/current_weather_screen/weather_metric_item.dart';
 
 class WeatherMetricsWidget extends StatelessWidget {
   const WeatherMetricsWidget({

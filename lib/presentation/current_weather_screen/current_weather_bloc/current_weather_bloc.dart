@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/data/repositories/weather_repository_impl.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/current_weather_forecast.dart';
 import 'package:weather_app/domain/repositories/weather_repository.dart';
-import 'package:weather_app/presentation/weather_screen/hourly_weather_item_data.dart';
+import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
 
-part 'weather_event.dart';
-part 'weather_state.dart';
+part 'current_weather_event.dart';
+part 'current_weather_state.dart';
 
-class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-  WeatherBloc({
-    required this.latitude,
-    required this.longitude,
+class CurrentWeatherBloc extends Bloc<CurrentWeatherEvent, CurrentWeatherState> {
+  CurrentWeatherBloc({
+    required this.coordinates,
   }) : super(WeatherLoading()) {
     on<LoadWeather>(_loadWeather);
 
     add(LoadWeather());
   }
 
-  final double latitude;
-  final double longitude;
+  final Coordinates coordinates;
 
   final WeatherRepository weatherRepository = WeatherRepositoryImpl();
 
-  void _loadWeather(LoadWeather event, Emitter<WeatherState> emit) async {
+  void _loadWeather(LoadWeather event, Emitter<CurrentWeatherState> emit) async {
     final weatherForecast = await weatherRepository.getCurrentWeather(
-      latitude: latitude,
-      longitude: longitude,
+      coordinates,
     );
     
     if (weatherForecast == null) {
