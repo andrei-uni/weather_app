@@ -40,8 +40,9 @@ class MapScreen extends StatelessWidget {
                   OSMFlutter(
                     controller: state.mapController,
                     osmOption: const OSMOption(
+                      enableRotationByGesture: false,
                       zoomOption: ZoomOption(
-                        initZoom: 12,
+                        initZoom: 11,
                       ),
                     ),
                   ),

@@ -4,8 +4,13 @@ sealed class CurrentWeatherState {}
 
 final class WeatherLoading extends CurrentWeatherState {}
 
-//TODO
-final class WeatherLoadFail extends CurrentWeatherState {}
+final class WeatherLoadFail extends CurrentWeatherState {
+  WeatherLoadFail({
+    required this.message,
+  });
+
+  String message;
+}
 
 final class WeatherLoadSuccess extends CurrentWeatherState {
   WeatherLoadSuccess({
@@ -32,10 +37,10 @@ final class WeatherLoadSuccess extends CurrentWeatherState {
     final result = <HourlyWeatherItemData>[];
 
     for (var i = 4 * pageIndex; i < 4 * (pageIndex + 1); i++) {
-      final hour = forecast.hourlyWeather[i];
+      final Weather hour = forecast.hourlyWeather[i];
       result.add(HourlyWeatherItemData(
         temperature: hour.temperature,
-        iconData: Icons.cloud,
+        iconData: hour.weatherCondition.toIcon(),
         time: '$i:00',
         isCurrent: forecast.location.localtime.hour == i,
       ));

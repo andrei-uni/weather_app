@@ -1,5 +1,6 @@
 enum WeatherCondition {
-  clear,
+  clearDay,
+  clearNight,
   clouds,
   drizzle,
   rain,

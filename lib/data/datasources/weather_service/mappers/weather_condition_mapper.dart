@@ -3,10 +3,10 @@ import 'package:weather_app/data/datasources/weather_service/responses/weather_c
 import 'package:weather_app/domain/models/weather_condition.dart';
 
 extension WeatherConditionMapper on WeatherConditionJson {
-  WeatherCondition toModel() {
+  WeatherCondition toModel({required bool isDay}) {
     switch (code) {
       case 1000:
-        return WeatherCondition.clear;
+        return isDay ? WeatherCondition.clearDay : WeatherCondition.clearNight;
       case 1003:
       case 1006:
       case 1009:

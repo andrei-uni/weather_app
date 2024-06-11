@@ -11,8 +11,8 @@ import 'package:weather_app/presentation/widgets/temperature_widget.dart';
 import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
 import 'package:weather_app/presentation/current_weather_screen/current_weather_bloc/current_weather_bloc.dart';
 import 'package:weather_app/presentation/current_weather_screen/weather_metrics_widget.dart';
-import 'package:weather_app/utils/translation_helper_extensions/weather_condition_translator_x.dart';
-import 'package:weather_app/utils/weather_condition_to_asset.dart';
+import 'package:weather_app/utils/extensions/translation_helper_extensions/weather_condition_translator_x.dart';
+import 'package:weather_app/utils/extensions/weather_condition_to_asset_x.dart';
 
 class CurrentWeatherScreen extends StatelessWidget {
   const CurrentWeatherScreen({
@@ -38,14 +38,17 @@ class CurrentWeatherScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 );
-              case WeatherLoadFail():
+              case WeatherLoadFail(:final message):
                 return Scaffold(
                   appBar: AppBar(
                     actions: const [AppBarMoreButton()],
                   ),
-                  body: LoadFailedWidget(onRetry: () {
-                    //TODO
-                  }),
+                  body: LoadFailedWidget(
+                    errorMessage: message,
+                    onRetry: () {
+                      context.read<CurrentWeatherBloc>().add(LoadWeather());
+                    },
+                  ),
                 );
               case WeatherLoadSuccess():
                 break;

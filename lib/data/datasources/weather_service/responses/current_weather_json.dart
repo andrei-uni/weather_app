@@ -13,6 +13,7 @@ class CurrentWeatherJson {
     required this.windKph,
     required this.humidity,
     required this.cloudiness,
+    required this.isDay,
   });
 
   @JsonKey(name: 'temp_c')
@@ -28,8 +29,10 @@ class CurrentWeatherJson {
   @JsonKey(name: 'cloud')
   final int cloudiness;
 
-  // @JsonKey(name: 'is_day')
-  // final bool isDay;
+  @JsonKey(name: 'is_day', fromJson: _boolFromInt)
+  final bool isDay;
+
+  static bool _boolFromInt(int isDay) => isDay == 1;
 
   factory CurrentWeatherJson.fromJson(Map<String, dynamic> json) => _$CurrentWeatherJsonFromJson(json);
 }

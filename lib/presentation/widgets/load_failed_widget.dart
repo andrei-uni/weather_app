@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class LoadFailedWidget extends StatelessWidget {
   const LoadFailedWidget({
     super.key,
+    required this.errorMessage,
     required this.onRetry,
   });
 
+  final String errorMessage;
   final VoidCallback onRetry;
 
   @override
@@ -19,7 +21,7 @@ class LoadFailedWidget extends StatelessWidget {
             color: Colors.red[900],
             size: 80,
           ),
-          const Text('Load failed'),
+          Text(errorMessage),
           const SizedBox(height: 5),
           TextButton(
             onPressed: onRetry,

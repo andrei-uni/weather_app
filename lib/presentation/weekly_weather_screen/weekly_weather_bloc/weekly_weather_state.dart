@@ -4,8 +4,13 @@ sealed class WeeklyWeatherState {}
 
 final class WeatherLoading extends WeeklyWeatherState {}
 
-//TODO
-final class WeatherLoadFail extends WeeklyWeatherState {}
+final class WeatherLoadFail extends WeeklyWeatherState {
+  WeatherLoadFail({
+    required this.message,
+  });
+
+  final String message;
+}
 
 final class WeatherLoadSuccess extends WeeklyWeatherState {
   WeatherLoadSuccess({
@@ -20,10 +25,10 @@ final class WeatherLoadSuccess extends WeeklyWeatherState {
     final result = <DailyWeatherItemData>[];
 
     for (var i = 0; i < 7; i++) {
-      final dayWeather = dailyWeather[i];
+      final DayWeather dayWeather = dailyWeather[i];
       result.add(DailyWeatherItemData(
-        label: Weekday.values[(todayWeekday + i) % 7].translateShort(), 
-        iconData: Icons.cloud,//TODO
+        label: Weekday.values[(todayWeekday + i) % 7].translateShort(),
+        iconData: dayWeather.weatherCondition.toIcon(),
         condition: dayWeather.weatherCondition.translate(),
         dayTemp: dayWeather.dayTimeTemperature,
         nightTemp: dayWeather.nightTimeTemperature,
