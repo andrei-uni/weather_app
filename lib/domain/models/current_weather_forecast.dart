@@ -8,7 +8,7 @@ class CurrentWeatherForecast {
     required this.currentWeather,
     required this.currentMetrics,
     required this.hourlyWeather,
-  })  : assert(hourlyWeather.length == 24);
+  }) : assert(hourlyWeather.length == 24);
 
   final Location location;
   final Weather currentWeather;

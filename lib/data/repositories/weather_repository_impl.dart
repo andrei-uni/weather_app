@@ -22,7 +22,7 @@ import 'package:weather_app/utils/locator.dart';
 class WeatherRepositoryImpl implements WeatherRepository {
   final _weatherService = locator<WeatherService>();
 
-  WeatherError toWeatherError(DioException dioException) {
+  WeatherError _toWeatherError(DioException dioException) {
     final errorResponse = dioException.response;
     if (errorResponse == null) {
       return NoConnection();
@@ -46,7 +46,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
       );
       response = httpResponse.data;
     } on DioException catch (e) {
-      return Failure(toWeatherError(e));
+      return Failure(_toWeatherError(e));
     }
 
     final currentWeather = Weather(
@@ -60,7 +60,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
       cloudiness: response.current.cloudiness,
     );
 
-    final List<HourJson> currentDayHours = response.forecast.forecastDay[0].hours;
+    final List<HourJson> currentDayHours = response.forecast.forecastDays[0].hours;
     final List<Weather> hourlyWeather = [
       for (final hourJson in currentDayHours)
         Weather(
@@ -95,12 +95,12 @@ class WeatherRepositoryImpl implements WeatherRepository {
       );
       response = httpResponse.data;
     } on DioException catch (e) {
-      return Failure(toWeatherError(e));
+      return Failure(_toWeatherError(e));
     }
 
-    final List<DayJson> days = response.forecast.forecastDay.map((e) => e.day).toList();
+    final List<DayJson> days = response.forecast.forecastDays.map((e) => e.day).toList();
     final List<List<HourJson>> daysHours =
-        response.forecast.forecastDay.map((e) => e.hours).toList();
+        response.forecast.forecastDays.map((e) => e.hours).toList();
 
     final List<DayWeather> dailyWeather = [
       for (var i = 0; i < days.length; i++)
@@ -111,6 +111,8 @@ class WeatherRepositoryImpl implements WeatherRepository {
         ),
     ];
 
-    return Success(WeeklyWeatherForecast(dailyWeather: dailyWeather));
+    return Success(
+      WeeklyWeatherForecast(dailyWeather: dailyWeather),
+    );
   }
 }

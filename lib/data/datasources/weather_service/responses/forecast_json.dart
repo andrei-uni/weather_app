@@ -8,11 +8,11 @@ part 'forecast_json.g.dart';
 )
 class ForecastJson {
   const ForecastJson({
-    required this.forecastDay,
+    required this.forecastDays,
   });
-  
+
   @JsonKey(name: 'forecastday')
-  final List<ForecastDayJson> forecastDay;
+  final List<ForecastDayJson> forecastDays;
 
   factory ForecastJson.fromJson(Map<String, dynamic> json) => _$ForecastJsonFromJson(json);
 }
