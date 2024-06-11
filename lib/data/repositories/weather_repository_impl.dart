@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:weather_app/data/datasources/weather_service/latitude_longitude.dart';
 import 'package:weather_app/data/datasources/weather_service/mappers/location_mapper.dart';
 import 'package:weather_app/data/datasources/weather_service/mappers/weather_condition_mapper.dart';
@@ -6,7 +5,6 @@ import 'package:weather_app/data/datasources/weather_service/responses/day_json.
 import 'package:weather_app/data/datasources/weather_service/responses/get_weather_response.dart';
 import 'package:weather_app/data/datasources/weather_service/responses/hour_json.dart';
 import 'package:weather_app/data/datasources/weather_service/weather_service.dart';
-import 'package:weather_app/data/datasources/weather_service/weather_service_interceptor.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/day_weather.dart';
 import 'package:weather_app/domain/models/weather.dart';
@@ -14,26 +12,17 @@ import 'package:weather_app/domain/models/current_weather_forecast.dart';
 import 'package:weather_app/domain/models/weather_metrics.dart';
 import 'package:weather_app/domain/models/weekly_weather_forecast.dart';
 import 'package:weather_app/domain/repositories/weather_repository.dart';
+import 'package:weather_app/utils/locator.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
-  static WeatherService get weatherService {
-    //TODO
-    final dio = Dio()..interceptors.add(WeatherServiceInterceptor());
-    // if (kDebugMode) {
-    //   dio.interceptors.add(PrettyDioLogger(
-    //     responseBody: true,
-    //     requestHeader: true,
-    //   ));
-    // }
-    return WeatherService(dio);
-  }
+  final _weatherService = locator<WeatherService>();
 
   @override
   Future<CurrentWeatherForecast?> getCurrentWeather(Coordinates coordinates) async {
     late final GetWeatherResponse response;
 
     try {
-      response = await weatherService.getWeather(
+      response = await _weatherService.getWeather(
         LatitudeLongitude(
           latitude: coordinates.latitude,
           longitude: coordinates.longitude,
@@ -52,7 +41,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
     final currentMetrics = WeatherMetrics(
       windSpeed: response.current.windKph,
       humidity: response.current.humidity,
-      cloudiness: response.current.cloud,
+      cloudiness: response.current.cloudiness,
     );
 
     final List<HourJson> currentDayHours = response.forecast.forecastDay[0].hours;
@@ -77,7 +66,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
     late final GetWeatherResponse response;
 
     try {
-      response = await weatherService.getWeather(
+      response = await _weatherService.getWeather(
         LatitudeLongitude(
           latitude: coordinates.latitude,
           longitude: coordinates.longitude,
@@ -89,7 +78,8 @@ class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     final List<DayJson> days = response.forecast.forecastDay.map((e) => e.day).toList();
-    final List<List<HourJson>> daysHours = response.forecast.forecastDay.map((e) => e.hours).toList();
+    final List<List<HourJson>> daysHours =
+        response.forecast.forecastDay.map((e) => e.hours).toList();
 
     final List<DayWeather> dailyWeather = [
       for (var i = 0; i < days.length; i++)
@@ -100,8 +90,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
         ),
     ];
 
-    return WeeklyWeatherForecast(
-      dailyWeather: dailyWeather,
-    );
+    return WeeklyWeatherForecast(dailyWeather: dailyWeather);
   }
 }

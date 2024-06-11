@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
+import 'package:weather_app/presentation/current_weather_screen/app_bar_more_button.dart';
 import 'package:weather_app/presentation/weekly_weather_screen/weekly_weather_screen.dart';
 import 'package:weather_app/presentation/widgets/icon_title_widget.dart';
 import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_widget.dart';
+import 'package:weather_app/presentation/widgets/load_failed_widget.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
 import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
 import 'package:weather_app/presentation/current_weather_screen/current_weather_bloc/current_weather_bloc.dart';
 import 'package:weather_app/presentation/current_weather_screen/weather_metrics_widget.dart';
 import 'package:weather_app/utils/translation_helper_extensions/weather_condition_translator_x.dart';
+import 'package:weather_app/utils/weather_condition_to_asset.dart';
 
 class CurrentWeatherScreen extends StatelessWidget {
   const CurrentWeatherScreen({
@@ -21,21 +24,28 @@ class CurrentWeatherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocProvider(
-        create: (context) => CurrentWeatherBloc(
-          coordinates: coordinates,
-        ),
+    return BlocProvider(
+      create: (context) => CurrentWeatherBloc(
+        coordinates: coordinates,
+      ),
+      child: SafeArea(
         child: BlocBuilder<CurrentWeatherBloc, CurrentWeatherState>(
           builder: (context, state) {
             switch (state) {
               case WeatherLoading():
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               case WeatherLoadFail():
-                return const Center(
-                  child: Text('Load Failed'),
+                return Scaffold(
+                  appBar: AppBar(
+                    actions: const [AppBarMoreButton()],
+                  ),
+                  body: LoadFailedWidget(onRetry: () {
+                    //TODO
+                  }),
                 );
               case WeatherLoadSuccess():
                 break;
@@ -47,29 +57,18 @@ class CurrentWeatherScreen extends StatelessWidget {
                   icon: Icons.location_on,
                 ),
                 centerTitle: true,
-                actions: [
-                  SubmenuButton(
-                    menuChildren: [
-                      MenuItemButton(
-                        onPressed: () {},
-                        child: const Text('Change Location'),
-                      ),
-                      MenuItemButton(
-                        onPressed: () {},
-                        child: const Text('Exit'),
-                      ),
-                    ],
-                    child: const Icon(
-                      Icons.more_vert,
-                      size: 30,
-                    ),
-                  ),
-                ],
+                actions: const [AppBarMoreButton()],
               ),
               body: Column(
                 children: [
-                  FlutterLogo(
-                    size: MediaQuery.sizeOf(context).width * 0.7,
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Image.asset(
+                        state.forecast.currentWeather.weatherCondition.toAsset(),
+                      ),
+                    ),
                   ),
                   TemperatureWidget.large(
                     temperature: state.forecast.currentWeather.temperature,
@@ -113,7 +112,7 @@ class CurrentWeatherScreen extends StatelessWidget {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            for (final HourlyWeatherItemData data in itemDatas) 
+                            for (final HourlyWeatherItemData data in itemDatas)
                               HourlyWeatherItemWidget(itemData: data),
                           ],
                         );

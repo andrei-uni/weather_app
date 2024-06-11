@@ -2,8 +2,14 @@ part of 'authentication_bloc.dart';
 
 sealed class AuthenticationState {}
 
-final class Autheticated extends AuthenticationState {}
+final class Authenticated extends AuthenticationState {
+  Authenticated({
+    required this.coordinates,
+  });
 
-final class Unautheticated extends AuthenticationState {}
+  final Coordinates coordinates;
+}
+
+final class Unauthenticated extends AuthenticationState {}
 
 final class Unknown extends AuthenticationState {}

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/domain/models/coordinates.dart';
+import 'package:weather_app/domain/repositories/local_coordinates_repository.dart';
+import 'package:weather_app/utils/constants.dart';
+import 'package:weather_app/utils/locator.dart';
 
 part 'map_event.dart';
 part 'map_state.dart';
@@ -10,13 +14,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc()
       : super(MapState(
           mapController: MapController(
-            initPosition: GeoPoint(latitude: 55.7558, longitude: 37.6172), // Moscow
+            initPosition: GeoPoint(
+              latitude: Constants.initialCoordinates.latitude,
+              longitude: Constants.initialCoordinates.longitude,
+            ),
           ),
           messageToShow: null,
+          selectedCoordinates: null,
         )) {
     on<UseMyLocation>(_onUseMyLocation);
     on<ConfirmLocation>(_onConfirmLocation);
   }
+
+  final _localCoordinatesRepository = locator<LocalCoordinatesRepository>();
 
   void _onUseMyLocation(UseMyLocation event, Emitter<MapState> emit) async {
     final locationEnabled = await Geolocator.isLocationServiceEnabled();
@@ -53,6 +63,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   void _onConfirmLocation(ConfirmLocation event, Emitter<MapState> emit) async {
     final GeoPoint location = await state.mapController.centerMap;
+    final Coordinates coordinates = Coordinates(
+      latitude: location.latitude,
+      longitude: location.longitude,
+    );
+
+    await _localCoordinatesRepository.addCoordinates(coordinates);
+
+    emit(state.copyWith(selectedCoordinates: coordinates));
   }
 
   void _showMessage(String message, Emitter<MapState> emit) {

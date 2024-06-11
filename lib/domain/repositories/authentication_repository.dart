@@ -6,7 +6,7 @@ abstract class AuthenticationRepository {
   void checkAuthenticationStatus();
 
   Future<void> logIn({
-    required String token,
+    required String apiKey,
   });
 
   Future<void> logOut();

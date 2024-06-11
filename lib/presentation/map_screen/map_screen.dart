@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:weather_app/presentation/current_weather_screen/current_weather_screen.dart';
 import 'package:weather_app/presentation/map_screen/map_bloc/map_bloc.dart';
 
 class MapScreen extends StatelessWidget {
@@ -8,9 +9,9 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocProvider(
-        create: (context) => MapBloc(),
+    return BlocProvider(
+      create: (context) => MapBloc(),
+      child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Select Location'),
@@ -44,10 +45,12 @@ class MapScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(
-                    Icons.location_pin,
-                    color: Colors.red,
-                    size: 48,
+                  const IgnorePointer(
+                    child: Icon(
+                      Icons.location_pin,
+                      color: Colors.red,
+                      size: 48,
+                    ),
                   ),
                 ],
               );
@@ -65,6 +68,15 @@ class MapScreen extends StatelessWidget {
         ..showSnackBar(
           SnackBar(content: Text(state.messageToShow!)),
         );
+    }
+
+    if (state.selectedCoordinates != null) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) {
+          return CurrentWeatherScreen(coordinates: state.selectedCoordinates!);
+        }),
+        (route) => false,
+      );
     }
   }
 }

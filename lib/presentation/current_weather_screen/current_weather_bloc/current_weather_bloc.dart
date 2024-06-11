@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/data/repositories/weather_repository_impl.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/current_weather_forecast.dart';
 import 'package:weather_app/domain/repositories/weather_repository.dart';
 import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
+import 'package:weather_app/utils/locator.dart';
 
 part 'current_weather_event.dart';
 part 'current_weather_state.dart';
@@ -20,13 +20,13 @@ class CurrentWeatherBloc extends Bloc<CurrentWeatherEvent, CurrentWeatherState> 
 
   final Coordinates coordinates;
 
-  final WeatherRepository weatherRepository = WeatherRepositoryImpl();
+  final _weatherRepository = locator<WeatherRepository>();
 
   void _loadWeather(LoadWeather event, Emitter<CurrentWeatherState> emit) async {
-    final weatherForecast = await weatherRepository.getCurrentWeather(
+    final weatherForecast = await _weatherRepository.getCurrentWeather(
       coordinates,
     );
-    
+
     if (weatherForecast == null) {
       emit(WeatherLoadFail());
       return;

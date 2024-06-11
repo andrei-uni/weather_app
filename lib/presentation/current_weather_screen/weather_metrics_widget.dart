@@ -20,7 +20,7 @@ class WeatherMetricsWidget extends StatelessWidget {
       endIndent: 13,
     );
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
       decoration: const BoxDecoration(
         color: Color(0xFF202328),
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -31,7 +31,7 @@ class WeatherMetricsWidget extends StatelessWidget {
           children: [
             Expanded(
               child: WeatherMetricItem(
-                iconData: Icons.thunderstorm,
+                iconData: Icons.air,
                 metric: windSpeed,
                 label: 'Wind',
               ),

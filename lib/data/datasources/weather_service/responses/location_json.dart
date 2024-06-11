@@ -13,7 +13,7 @@ class LocationJson {
   
   final String name;
 
-  final DateTime localtime;
+  final String localtime;
 
   factory LocationJson.fromJson(Map<String, dynamic> json) => _$LocationJsonFromJson(json);
 }
