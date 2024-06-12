@@ -15,21 +15,19 @@ final locator = GetIt.instance;
 
 Future<void> setupLocator() async {
   locator.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
-  //TODO
+
   locator.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
 
   locator.registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImpl());
 
   locator.registerSingleton<LocalCoordinatesRepository>(LocalCoordinatesRepositoryImpl());
 
-  locator.registerSingleton<Dio>(
-    Dio()
-      ..interceptors.add(WeatherServiceInterceptor())
+  locator.registerSingleton<Dio>(Dio()..interceptors.add(WeatherServiceInterceptor())
       // ..interceptors.add(PrettyDioLogger(
       //   responseBody: true,
       //   requestHeader: true,
       // )),
-  );
+      );
 
   locator.registerSingleton<WeatherService>(WeatherService(locator<Dio>()));
 

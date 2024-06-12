@@ -1,4 +1,0 @@
-enum Units {
-  metric,
-  imperial,
-}

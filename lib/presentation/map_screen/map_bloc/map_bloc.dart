@@ -20,7 +20,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             ),
           ),
           messageToShow: null,
-          selectedCoordinates: null,
+          hasSelectedCoordinates: false,
         )) {
     on<UseMyLocation>(_onUseMyLocation);
     on<ConfirmLocation>(_onConfirmLocation);
@@ -70,7 +70,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     await _localCoordinatesRepository.addCoordinates(coordinates);
 
-    emit(state.copyWith(selectedCoordinates: coordinates));
+    emit(state.copyWith(hasSelectedCoordinates: true));
   }
 
   void _showMessage(String message, Emitter<MapState> emit) {

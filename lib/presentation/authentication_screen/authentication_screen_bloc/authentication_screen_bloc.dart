@@ -11,7 +11,9 @@ part 'authentication_screen_state.dart';
 class AuthenticationScreenBloc extends Bloc<AuthenticationScreenEvent, AuthenticationScreenState> {
   AuthenticationScreenBloc()
       : super(AuthenticationScreenState(
-          keyController: TextEditingController(text: Constants.mockApiKey), // hardcoded for illustration purposes
+          keyController: TextEditingController(
+            text: Constants.mockApiKey, // hardcoded for illustration purposes
+          ),
         )) {
     on<ConfirmApiKey>(_onConfirmApiKey);
   }
@@ -23,7 +25,6 @@ class AuthenticationScreenBloc extends Bloc<AuthenticationScreenEvent, Authentic
     if (state.keyController.text.trim().isEmpty) {
       return;
     }
-    //TODO validate input
 
     await _localCoordinatesRepository.addCoordinates(Constants.initialCoordinates);
 

@@ -16,10 +16,12 @@ final class WeatherLoadSuccess extends CurrentWeatherState {
   WeatherLoadSuccess({
     required this.forecast,
     required this.hourlyWeatherPageController,
+    required this.coordinates,
   });
 
   final CurrentWeatherForecast forecast;
   final PageController hourlyWeatherPageController;
+  final Coordinates? coordinates;
 
   String get windSpeedString {
     return "${forecast.currentMetrics.windSpeed.toInt()} km/h";

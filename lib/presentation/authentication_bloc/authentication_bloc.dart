@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/domain/models/authentication_status.dart';
-import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/repositories/authentication_repository.dart';
 import 'package:weather_app/domain/repositories/local_coordinates_repository.dart';
 import 'package:weather_app/utils/locator.dart';
@@ -16,7 +15,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<Unauthenticate>(_onUnauthenticate);
 
-    _authenticationStatusSubscription = _authenticationRepository.authenticationStatusStream.listen((status) {
+    _authenticationStatusSubscription =
+        _authenticationRepository.authenticationStatusStream.listen((status) {
       add(_AuthenticationStatusChanged(authenticationStatus: status));
     });
 
@@ -32,12 +32,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     _authenticationRepository.checkAuthenticationStatus();
   }
 
-  void _onAuthenticationStatusChanged(_AuthenticationStatusChanged event, Emitter<AuthenticationState> emit) async {
+  void _onAuthenticationStatusChanged(
+      _AuthenticationStatusChanged event, Emitter<AuthenticationState> emit) async {
     switch (event.authenticationStatus) {
       case AuthenticationStatus.authenticated:
-        final coordinates = await _localCoordinatesRepository.getCoordinates();
-        emit(Authenticated(coordinates: coordinates!));
-
+        emit(Authenticated());
       case AuthenticationStatus.unauthenticated:
         emit(Unauthenticated());
     }

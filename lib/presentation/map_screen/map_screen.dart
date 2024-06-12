@@ -1,62 +1,65 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:weather_app/presentation/current_weather_screen/current_weather_screen.dart';
 import 'package:weather_app/presentation/map_screen/map_bloc/map_bloc.dart';
+import 'package:weather_app/utils/app_router/app_router.dart';
 
-class MapScreen extends StatelessWidget {
+@RoutePage()
+class MapScreen extends StatelessWidget implements AutoRouteWrapper {
   const MapScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
       create: (context) => MapBloc(),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Select Location'),
-            centerTitle: true,
-            actions: [
-              Builder(builder: (context) {
-                return IconButton(
-                  onPressed: () => context.read<MapBloc>().add(ConfirmLocation()),
-                  icon: const Icon(Icons.check),
-                );
-              }),
-            ],
-          ),
-          floatingActionButton: Builder(builder: (context) {
-            return FloatingActionButton(
-              onPressed: () => context.read<MapBloc>().add(UseMyLocation()),
-              child: const Icon(Icons.my_location),
+      child: this,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Select Location'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () => context.read<MapBloc>().add(ConfirmLocation()),
+              icon: const Icon(Icons.check),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.read<MapBloc>().add(UseMyLocation()),
+          child: const Icon(Icons.my_location),
+        ),
+        body: BlocConsumer<MapBloc, MapState>(
+          listener: stateChanged,
+          builder: (context, state) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                OSMFlutter(
+                  controller: state.mapController,
+                  osmOption: const OSMOption(
+                    enableRotationByGesture: false,
+                    zoomOption: ZoomOption(
+                      initZoom: 11,
+                    ),
+                  ),
+                ),
+                const IgnorePointer(
+                  child: Icon(
+                    Icons.location_pin,
+                    color: Colors.red,
+                    size: 48,
+                  ),
+                ),
+              ],
             );
-          }),
-          body: BlocConsumer<MapBloc, MapState>(
-            listener: stateChanged,
-            builder: (context, state) {
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  OSMFlutter(
-                    controller: state.mapController,
-                    osmOption: const OSMOption(
-                      enableRotationByGesture: false,
-                      zoomOption: ZoomOption(
-                        initZoom: 11,
-                      ),
-                    ),
-                  ),
-                  const IgnorePointer(
-                    child: Icon(
-                      Icons.location_pin,
-                      color: Colors.red,
-                      size: 48,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+          },
         ),
       ),
     );
@@ -71,12 +74,10 @@ class MapScreen extends StatelessWidget {
         );
     }
 
-    if (state.selectedCoordinates != null) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) {
-          return CurrentWeatherScreen(coordinates: state.selectedCoordinates!);
-        }),
-        (route) => false,
+    if (state.hasSelectedCoordinates) {
+      context.router.replaceAll(
+        [CurrentWeatherRoute()],
+        updateExistingRoutes: false,
       );
     }
   }
