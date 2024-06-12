@@ -1,7 +1,7 @@
 import 'package:weather_app/domain/models/coordinates.dart';
 
 abstract class Constants {
-  static const mockApiKey = '5dc6415fdbb64503b94181151240906';
+  static const mockApiKey = 'e22bc766a30c43fb9a7140818241106';
   
   static const initialCoordinates = Coordinates( // Moscow
     latitude: 55.751244,

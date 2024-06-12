@@ -37,14 +37,13 @@ class WeatherRepositoryImpl implements WeatherRepository {
     late final GetWeatherResponse response;
 
     try {
-      final httpResponse = await _weatherService.getWeather(
+      response = await _weatherService.getWeather(
         LatitudeLongitude(
           latitude: coordinates.latitude,
           longitude: coordinates.longitude,
         ),
         1,
       );
-      response = httpResponse.data;
     } on DioException catch (e) {
       return Failure(_toWeatherError(e));
     }
@@ -65,7 +64,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
       for (final hourJson in currentDayHours)
         Weather(
           temperature: hourJson.tempCels,
-          weatherCondition: hourJson.condition.toModel(isDay: response.current.isDay),
+          weatherCondition: hourJson.condition.toModel(isDay: hourJson.isDay),
         ),
     ];
 
@@ -86,14 +85,13 @@ class WeatherRepositoryImpl implements WeatherRepository {
     late final GetWeatherResponse response;
 
     try {
-      final httpResponse = await _weatherService.getWeather(
+      response = await _weatherService.getWeather(
         LatitudeLongitude(
           latitude: coordinates.latitude,
           longitude: coordinates.longitude,
         ),
         7,
       );
-      response = httpResponse.data;
     } on DioException catch (e) {
       return Failure(_toWeatherError(e));
     }

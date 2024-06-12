@@ -31,6 +31,7 @@ class WeatherServiceInterceptor extends Interceptor {
     options.queryParameters['hour_fields'] = [
       'temp_c',
       'code',
+      'is_day',
     ].join(',');
 
     super.onRequest(options, handler);

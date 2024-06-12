@@ -10,7 +10,7 @@ abstract class WeatherService {
   factory WeatherService(Dio dio, {String baseUrl}) = _WeatherService;
 
   @GET('/forecast.json')
-  Future<HttpResponse<GetWeatherResponse>> getWeather(
+  Future<GetWeatherResponse> getWeather(
     @Query('q') LatitudeLongitude latitudeLongitude,
     @Query('days') int days,
   );
