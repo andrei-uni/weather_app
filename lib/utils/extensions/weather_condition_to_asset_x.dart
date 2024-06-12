@@ -12,7 +12,7 @@ extension WeatherConditionToAssetX on WeatherCondition {
       WeatherCondition.snow => 'Snow.png',
       WeatherCondition.fog => 'Cloud_Fog.png',
       WeatherCondition.mist => 'Cloud_Fog.png',
-      WeatherCondition.unknown => '', //TODO
+      WeatherCondition.unknown => 'Error.png',
     };
     return 'assets/weather_images/$imageName';
   }
