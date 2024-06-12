@@ -24,7 +24,7 @@ class TemperatureWidget extends StatelessWidget {
     required this.temperature,
     this.color,
   })  : temperatureTextStyle = const TextStyle(
-          fontSize: 140,
+          fontSize: 100,
           fontWeight: FontWeight.bold,
           height: 0.95,
         ),

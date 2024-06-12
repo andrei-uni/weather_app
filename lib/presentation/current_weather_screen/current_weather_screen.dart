@@ -73,7 +73,6 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
             body: Column(
               children: [
                 Expanded(
-                  flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Image.asset(
@@ -84,12 +83,15 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                 TemperatureWidget.large(
                   temperature: state.forecast.currentWeather.temperature,
                 ),
-                Text(
-                  state.forecast.currentWeather.weatherCondition.translate(),
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.grey),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 15),
+                  child: Text(
+                    state.forecast.currentWeather.weatherCondition.translate(),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.grey),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: WeatherMetricsWidget(
                     windSpeed: state.windSpeedString,
                     humidity: state.humidityString,
@@ -97,7 +99,7 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
                   child: Row(
                     children: [
                       const Text('Today'),
@@ -116,7 +118,8 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                     ],
                   ),
                 ),
-                Expanded(
+                SizedBox(
+                  height: 120,
                   child: PageView.builder(
                     controller: state.hourlyWeatherPageController,
                     itemCount: 6,
@@ -133,7 +136,7 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 15),
+                  padding: const EdgeInsets.only(top: 10, bottom: 15),
                   child: SmoothPageIndicator(
                     controller: state.hourlyWeatherPageController,
                     count: 6,
