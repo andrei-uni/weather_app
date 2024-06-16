@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/domain/repositories/authentication_repository.dart';
-import 'package:weather_app/domain/repositories/local_coordinates_repository.dart';
+import 'package:weather_app/domain/usecases/authentication/log_in_usecase.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/locator.dart';
 
@@ -18,16 +17,21 @@ class AuthenticationScreenBloc extends Bloc<AuthenticationScreenEvent, Authentic
     on<ConfirmApiKey>(_onConfirmApiKey);
   }
 
-  final _authenticationRepository = locator<AuthenticationRepository>();
-  final _localCoordinatesRepository = locator<LocalCoordinatesRepository>();
+  final _logInUsecase = locator<LogInUsecase>();
 
   void _onConfirmApiKey(ConfirmApiKey event, Emitter<AuthenticationScreenState> emit) async {
-    if (state.keyController.text.trim().isEmpty) {
+    final key = state.keyController.text.trim();
+
+    if (key.isEmpty) {
       return;
     }
 
-    await _localCoordinatesRepository.addCoordinates(Constants.initialCoordinates);
+    _logInUsecase(apiKey: key);
+  }
 
-    await _authenticationRepository.logIn(apiKey: state.keyController.text.trim());
+  @override
+  Future<void> close() {
+    state.keyController.dispose();
+    return super.close();
   }
 }

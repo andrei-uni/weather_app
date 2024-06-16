@@ -5,8 +5,8 @@ import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/current_weather_forecast.dart';
 import 'package:weather_app/domain/models/weather.dart';
 import 'package:weather_app/domain/models/weather_error.dart';
-import 'package:weather_app/domain/repositories/local_coordinates_repository.dart';
-import 'package:weather_app/domain/repositories/weather_repository.dart';
+import 'package:weather_app/domain/usecases/local_coordinates/get_coordinates_usecase.dart';
+import 'package:weather_app/domain/usecases/weather/get_current_weather_usecase.dart';
 import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
 import 'package:weather_app/utils/extensions/weather_condition_to_icon_x.dart';
 import 'package:weather_app/utils/locator.dart';
@@ -26,16 +26,16 @@ class CurrentWeatherBloc extends Bloc<CurrentWeatherEvent, CurrentWeatherState> 
 
   Coordinates? coordinates;
 
-  final _weatherRepository = locator<WeatherRepository>();
-  final _localCoordinatesRepository = locator<LocalCoordinatesRepository>();
+  final _getCoordinatesUsecase = locator<GetCoordinatesUsecase>();
+  final _getCurrentWeatherUsecase = locator<GetCurrentWeatherUsecase>();
 
   void _loadWeather(LoadWeather event, Emitter<CurrentWeatherState> emit) async {
     emit(WeatherLoading());
 
-    coordinates ??= await _localCoordinatesRepository.getCoordinates();
+    coordinates ??= await _getCoordinatesUsecase();
 
     final Result<CurrentWeatherForecast, WeatherError> currentWeatherResult =
-        await _weatherRepository.getCurrentWeather(coordinates!);
+        await _getCurrentWeatherUsecase(coordinates!);
 
     if (currentWeatherResult.isFailure) {
       emit(WeatherLoadFail(

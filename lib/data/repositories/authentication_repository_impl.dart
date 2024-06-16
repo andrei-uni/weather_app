@@ -7,19 +7,17 @@ import 'package:weather_app/utils/locator.dart';
 import 'package:weather_app/utils/secure_storage_keys.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
+  AuthenticationRepositoryImpl() {
+    _checkAuthenticationStatus();
+  }
+
   final _secureStorage = locator<FlutterSecureStorage>();
 
   final _key = SecureStorageKeys.weatherApiKey;
 
   final _authenticationStatusController = StreamController<AuthenticationStatus>();
 
-  @override
-  Stream<AuthenticationStatus> get authenticationStatusStream async* {
-    yield* _authenticationStatusController.stream;
-  }
-
-  @override
-  void checkAuthenticationStatus() async {
+  void _checkAuthenticationStatus() async {
     final apiKey = await _secureStorage.read(key: _key);
 
     if (apiKey == null) {
@@ -27,6 +25,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } else {
       _authenticationStatusController.add(AuthenticationStatus.authenticated);
     }
+  }
+
+  @override
+  Stream<AuthenticationStatus> get authenticationStatusStream async* {
+    yield* _authenticationStatusController.stream;
   }
 
   @override

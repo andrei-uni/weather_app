@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
-import 'package:weather_app/domain/repositories/local_coordinates_repository.dart';
+import 'package:weather_app/domain/usecases/local_coordinates/add_coordinates_usecase.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/locator.dart';
 
@@ -26,7 +26,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<ConfirmLocation>(_onConfirmLocation);
   }
 
-  final _localCoordinatesRepository = locator<LocalCoordinatesRepository>();
+  final _addCoordinatesUsecase = locator<AddCoordinatesUsecase>();
 
   void _onUseMyLocation(UseMyLocation event, Emitter<MapState> emit) async {
     final locationEnabled = await Geolocator.isLocationServiceEnabled();
@@ -68,7 +68,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       longitude: location.longitude,
     );
 
-    await _localCoordinatesRepository.addCoordinates(coordinates);
+    await _addCoordinatesUsecase(coordinates);
 
     emit(state.copyWith(hasSelectedCoordinates: true));
   }
