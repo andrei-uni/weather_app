@@ -1,4 +1,4 @@
-import 'package:weather_app/domain/models/authentication_status.dart';
+import 'package:weather_app/domain/models/authentication/authentication_status.dart';
 
 abstract class AuthenticationRepository {
   Stream<AuthenticationStatus> get authenticationStatusStream;

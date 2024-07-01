@@ -1,4 +1,4 @@
-import 'package:weather_app/domain/models/weather_condition.dart';
+import 'package:weather_app/domain/models/weather/weather_condition.dart';
 
 class Weather {
   Weather({

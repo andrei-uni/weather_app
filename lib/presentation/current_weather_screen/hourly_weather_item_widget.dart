@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
 import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
+import 'package:weather_app/utils/app_colors.dart';
 
 class HourlyWeatherItemWidget extends StatelessWidget {
   const HourlyWeatherItemWidget({
@@ -15,7 +16,8 @@ class HourlyWeatherItemWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
-        color: itemData.isCurrent ? Colors.lightBlue[900] : const Color(0xFF202328),
+        color:
+            itemData.isCurrent ? AppColors.activeBlue(context) : AppColors.containerGrey(context),
         borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       child: Column(

@@ -15,25 +15,6 @@ class WeatherServiceInterceptor extends Interceptor {
     options.queryParameters['alerts'] = 'no';
     options.queryParameters['aqi'] = 'no';
 
-    options.queryParameters['current_fields'] = [
-      'temp_c',
-      'code',
-      'wind_kph',
-      'humidity',
-      'cloud',
-    ].join(',');
-
-    options.queryParameters['day_fields'] = [
-      'avgtemp_c',
-      'code',
-    ].join(',');
-
-    options.queryParameters['hour_fields'] = [
-      'temp_c',
-      'code',
-      'is_day',
-    ].join(',');
-
     super.onRequest(options, handler);
   }
 }

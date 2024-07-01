@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:weather_app/data/datasources/weather_service/responses/weather_condition_json.dart';
-import 'package:weather_app/domain/models/weather_condition.dart';
+import 'package:weather_app/domain/models/weather/weather_condition.dart';
 
 extension WeatherConditionMapper on WeatherConditionJson {
   WeatherCondition toModel({required bool isDay}) {

@@ -1,7 +1,7 @@
-import 'package:weather_app/domain/models/weather_condition.dart';
+import 'package:weather_app/domain/models/weather/weather_condition.dart';
 
-class DayWeather {
-  DayWeather({
+class DailyWeather {
+  DailyWeather({
     required this.dayTimeTemperature,
     required this.nightTimeTemperature,
     required this.weatherCondition,

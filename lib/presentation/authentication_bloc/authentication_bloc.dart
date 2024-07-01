@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/domain/models/authentication_status.dart';
+import 'package:weather_app/domain/models/authentication/authentication_status.dart';
 import 'package:weather_app/domain/usecases/authentication/auth_status_stream_usecase.dart';
 import 'package:weather_app/domain/usecases/authentication/log_out_usecase.dart';
 import 'package:weather_app/utils/locator.dart';

@@ -36,9 +36,10 @@ final class WeatherLoadSuccess extends CurrentWeatherState {
   }
 
   List<HourlyWeatherItemData> getHourlyWeather(int pageIndex) {
-    final result = <HourlyWeatherItemData>[];
+    final List<HourlyWeatherItemData> result = [];
+    final int startHour = _hourItemsPerPage * pageIndex;
 
-    for (var i = 4 * pageIndex; i < 4 * (pageIndex + 1); i++) {
+    for (var i = startHour; i < startHour + _hourItemsPerPage; i++) {
       final Weather hour = forecast.hourlyWeather[i];
       result.add(HourlyWeatherItemData(
         temperature: hour.temperature,

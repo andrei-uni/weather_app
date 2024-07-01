@@ -1,6 +1,6 @@
 import 'package:weather_app/domain/models/location.dart';
-import 'package:weather_app/domain/models/weather.dart';
-import 'package:weather_app/domain/models/weather_metrics.dart';
+import 'package:weather_app/domain/models/weather/weather.dart';
+import 'package:weather_app/domain/models/weather/weather_metrics.dart';
 
 class CurrentWeatherForecast {
   CurrentWeatherForecast({

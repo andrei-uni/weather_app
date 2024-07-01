@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/domain/models/weather_condition.dart';
+import 'package:weather_app/domain/models/weather/weather_condition.dart';
 
 extension WeatherConditionToIconX on WeatherCondition {
   IconData toIcon() {

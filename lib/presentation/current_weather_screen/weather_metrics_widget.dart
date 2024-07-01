@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/presentation/current_weather_screen/weather_metric_item.dart';
+import 'package:weather_app/utils/app_colors.dart';
 
 class WeatherMetricsWidget extends StatelessWidget {
   const WeatherMetricsWidget({
@@ -21,9 +22,9 @@ class WeatherMetricsWidget extends StatelessWidget {
     );
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
-      decoration: const BoxDecoration(
-        color: Color(0xFF202328),
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+      decoration: BoxDecoration(
+        color: AppColors.containerGrey(context),
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       child: IntrinsicHeight(
         child: Row(

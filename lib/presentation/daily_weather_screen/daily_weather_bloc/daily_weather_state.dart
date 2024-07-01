@@ -1,10 +1,10 @@
-part of 'weekly_weather_bloc.dart';
+part of 'daily_weather_bloc.dart';
 
-sealed class WeeklyWeatherState {}
+sealed class DailyWeatherState {}
 
-final class WeatherLoading extends WeeklyWeatherState {}
+final class WeatherLoading extends DailyWeatherState {}
 
-final class WeatherLoadFail extends WeeklyWeatherState {
+final class WeatherLoadFail extends DailyWeatherState {
   WeatherLoadFail({
     required this.message,
   });
@@ -12,20 +12,20 @@ final class WeatherLoadFail extends WeeklyWeatherState {
   final String message;
 }
 
-final class WeatherLoadSuccess extends WeeklyWeatherState {
+final class WeatherLoadSuccess extends DailyWeatherState {
   WeatherLoadSuccess({
     required this.dailyWeather,
   });
 
-  final List<DayWeather> dailyWeather;
+  final List<DailyWeather> dailyWeather;
 
   List<DailyWeatherItemData> get dailyWeatherItems {
-    final todayWeekday = DateTime.now().weekday - 1;
+    final int todayWeekday = DateTime.now().weekday - 1;
 
-    final result = <DailyWeatherItemData>[];
+    final List<DailyWeatherItemData> result = [];
 
-    for (var i = 0; i < 7; i++) {
-      final DayWeather dayWeather = dailyWeather[i];
+    for (var i = 0; i < dailyWeather.length; i++) {
+      final DailyWeather dayWeather = dailyWeather[i];
       result.add(DailyWeatherItemData(
         label: Weekday.values[(todayWeekday + i) % 7].translateShort(),
         iconData: dayWeather.weatherCondition.toIcon(),

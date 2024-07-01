@@ -15,8 +15,8 @@ import 'package:weather_app/domain/usecases/authentication/log_in_usecase.dart';
 import 'package:weather_app/domain/usecases/authentication/log_out_usecase.dart';
 import 'package:weather_app/domain/usecases/local_coordinates/add_coordinates_usecase.dart';
 import 'package:weather_app/domain/usecases/local_coordinates/get_coordinates_usecase.dart';
-import 'package:weather_app/domain/usecases/weather/get_current_weather_usecase.dart';
-import 'package:weather_app/domain/usecases/weather/get_weekly_weather_usecase.dart';
+import 'package:weather_app/domain/usecases/weather/get_current_weather_forecast_usecase.dart';
+import 'package:weather_app/domain/usecases/weather/get_daily_weather_forecast_usecase.dart';
 
 final locator = GetIt.instance;
 
@@ -44,8 +44,9 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<LogInUsecase>(() => LogInUsecase());
   locator.registerLazySingleton<LogOutUsecase>(() => LogOutUsecase());
 
-  locator.registerSingleton<GetCurrentWeatherUsecase>(GetCurrentWeatherUsecase());
-  locator.registerLazySingleton<GetWeeklyWeatherUsecase>(() => GetWeeklyWeatherUsecase());
+  locator.registerSingleton<GetCurrentWeatherForecastUsecase>(GetCurrentWeatherForecastUsecase());
+  locator.registerLazySingleton<GetDailyWeatherForecastUsecase>(
+      () => GetDailyWeatherForecastUsecase());
 
   locator.registerSingleton<GetCoordinatesUsecase>(GetCoordinatesUsecase());
   locator.registerLazySingleton<AddCoordinatesUsecase>(() => AddCoordinatesUsecase());

@@ -106,14 +106,14 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                       const Spacer(),
                       TextButton.icon(
                         onPressed: () {
-                          context.router.push(WeeklyWeatherRoute(coordinates: state.coordinates!));
+                          context.router.push(DailyWeatherRoute(coordinates: state.coordinates!));
                         },
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.only(left: 10, top: 3, bottom: 3),
                         ),
                         iconAlignment: IconAlignment.end,
                         icon: const Icon(Icons.chevron_right),
-                        label: const Text('7 days'),
+                        label: const Text('Daily'),
                       ),
                     ],
                   ),

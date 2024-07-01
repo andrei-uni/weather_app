@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:weather_app/domain/models/authentication_status.dart';
+import 'package:weather_app/domain/models/authentication/authentication_status.dart';
 import 'package:weather_app/domain/repositories/authentication_repository.dart';
 import 'package:weather_app/utils/locator.dart';
 import 'package:weather_app/utils/secure_storage_keys.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/presentation/weekly_weather_screen/daily_weather_item_data.dart';
+import 'package:weather_app/presentation/daily_weather_screen/daily_weather_item_data.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
 
 class DailyWeatherItemWidget extends StatelessWidget {
