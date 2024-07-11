@@ -1,30 +1,39 @@
 part of 'current_weather_bloc.dart';
 
-sealed class CurrentWeatherState {}
+sealed class CurrentWeatherStateBase {}
 
-final class WeatherLoading extends CurrentWeatherState {}
-
-final class WeatherLoadFail extends CurrentWeatherState {
-  WeatherLoadFail({
-    required this.message,
+final class CurrentWeatherStateLoadFail extends CurrentWeatherStateBase {
+  CurrentWeatherStateLoadFail({
+    required this.errorMessage,
   });
 
-  String message;
+  final String errorMessage;
 }
 
-final class WeatherLoadSuccess extends CurrentWeatherState {
-  WeatherLoadSuccess({
+final class CurrentWeatherState extends CurrentWeatherStateBase {
+  CurrentWeatherState({
     required this.forecast,
     required this.hourlyWeatherPageController,
-    required this.coordinates,
+    required this.location,
+    required this.isLoading,
   });
+
+  CurrentWeatherState.loading({
+    required String? locationName,
+  }) : this(
+          forecast: _fakeForecast,
+          hourlyWeatherPageController: _fakeHourlyWeatherPageController,
+          location: _getFakeLocation(locationName: locationName),
+          isLoading: true,
+        );
 
   final CurrentWeatherForecast forecast;
   final PageController hourlyWeatherPageController;
-  final Coordinates? coordinates;
+  final Location location;
+  final bool isLoading;
 
   String get windSpeedString {
-    return "${forecast.currentMetrics.windSpeed.toInt()} km/h";
+    return "${forecast.currentMetrics.windSpeed.round()} km/h";
   }
 
   String get humidityString {
@@ -35,7 +44,7 @@ final class WeatherLoadSuccess extends CurrentWeatherState {
     return "${forecast.currentMetrics.cloudiness}%";
   }
 
-  List<HourlyWeatherItemData> getHourlyWeather(int pageIndex) {
+  List<HourlyWeatherItemData> getHourlyWeatherItems(int pageIndex) {
     final List<HourlyWeatherItemData> result = [];
     final int startHour = _hourItemsPerPage * pageIndex;
 
@@ -43,9 +52,9 @@ final class WeatherLoadSuccess extends CurrentWeatherState {
       final Weather hour = forecast.hourlyWeather[i];
       result.add(HourlyWeatherItemData(
         temperature: hour.temperature,
-        iconData: hour.weatherCondition.toIcon(),
+        icon: hour.weatherCondition.toIcon(),
         time: '$i:00',
-        isCurrent: forecast.location.localtime.hour == i,
+        isCurrent: forecast.localtime.hour == i,
       ));
     }
 

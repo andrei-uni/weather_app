@@ -17,7 +17,7 @@ class AuthGuard extends AutoRouteGuard {
         return;
 
       case Unauthenticated():
-        resolver.redirect(const AuthenticationRoute());
+        resolver.redirect(AuthenticationRoute());
         return;
 
       case Unknown():

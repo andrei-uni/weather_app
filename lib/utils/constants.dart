@@ -1,10 +1,15 @@
 import 'package:weather_app/domain/models/coordinates.dart';
+import 'package:weather_app/domain/models/location.dart';
 
 abstract class Constants {
-  static const mockApiKey = 'de7eb7b06a1e4e699b0175926240107';
-  
-  static const initialCoordinates = Coordinates( // Moscow
-    latitude: 55.751244,
-    longitude: 37.618423,
+  static const mockApiKey = '5d1cc376113f4d8eaef100928241107';
+
+  static const initialLocation = Location(
+    id: 0,
+    name: 'London',
+    coordinates: Coordinates(
+      latitude: 51.5,
+      longitude: -0.12,
+    ),
   );
 }

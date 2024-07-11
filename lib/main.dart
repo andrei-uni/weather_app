@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/presentation/main_app.dart';
 import 'package:weather_app/utils/locator.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await setupLocator();
+  setupLocator();
 
   runApp(const MainApp());
 }

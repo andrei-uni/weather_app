@@ -4,7 +4,7 @@ import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/domain/models/weather/current_weather_forecast.dart';
 import 'package:weather_app/domain/models/weather/daily_forecast.dart';
 
-abstract class WeatherRepository {
+abstract class RemoteWeatherRepository {
   Future<Result<CurrentWeatherForecast, WeatherError>> getCurrentWeatherForecast(
     Coordinates coordinates,
   );
@@ -13,4 +13,6 @@ abstract class WeatherRepository {
     Coordinates coordinates, {
     required int days,
   });
+
+  Future<String?> getLocationNameByCoordinates(Coordinates coordinates);
 }

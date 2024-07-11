@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TemperatureWidget extends StatelessWidget {
   const TemperatureWidget.small({
@@ -37,24 +38,26 @@ class TemperatureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          temperature.toInt().toString(),
-          style: temperatureTextStyle.copyWith(
-            color: color,
+    return Skeleton.unite(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            temperature.round().toString(),
+            style: temperatureTextStyle.copyWith(
+              color: color,
+            ),
           ),
-        ),
-        Text(
-          '°',
-          style: TextStyle(
-            fontSize: degreeSymbolFontSize,
-            color: Colors.grey,
+          Text(
+            '°',
+            style: TextStyle(
+              fontSize: degreeSymbolFontSize,
+              color: Colors.grey,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

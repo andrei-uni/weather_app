@@ -18,7 +18,7 @@ class LoadFailedWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.error_outline,
-            color: Colors.red[900],
+            color: Colors.red.shade900,
             size: 80,
           ),
           Text(errorMessage),

@@ -34,8 +34,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  void _onUnauthenticate(Unauthenticate event, Emitter<AuthenticationState> emit) {
-    _logOutUsecase();
+  void _onUnauthenticate(Unauthenticate event, Emitter<AuthenticationState> emit) async {
+    await _logOutUsecase();
   }
 
   @override

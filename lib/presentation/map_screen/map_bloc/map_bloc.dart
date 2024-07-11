@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
-import 'package:weather_app/domain/usecases/local_coordinates/add_coordinates_usecase.dart';
+import 'package:weather_app/domain/models/location.dart';
+import 'package:weather_app/domain/usecases/local_locations/add_location_usecase.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/locator.dart';
 
@@ -15,18 +16,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       : super(MapState(
           mapController: MapController(
             initPosition: GeoPoint(
-              latitude: Constants.initialCoordinates.latitude,
-              longitude: Constants.initialCoordinates.longitude,
+              latitude: Constants.initialLocation.coordinates.latitude,
+              longitude: Constants.initialLocation.coordinates.longitude,
             ),
           ),
+          selectedLocation: null,
+          confirmingCoordinates: false,
           messageToShow: null,
-          hasSelectedCoordinates: false,
         )) {
     on<UseMyLocation>(_onUseMyLocation);
     on<ConfirmLocation>(_onConfirmLocation);
   }
 
-  final _addCoordinatesUsecase = locator<AddCoordinatesUsecase>();
+  final _addLocationUsecase = locator<AddLocationUsecase>();
 
   void _onUseMyLocation(UseMyLocation event, Emitter<MapState> emit) async {
     final locationEnabled = await Geolocator.isLocationServiceEnabled();
@@ -51,26 +53,35 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       return;
     }
 
-    final Position position = await Geolocator.getCurrentPosition(
+    final Position currentPosition = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.low,
     );
 
     await state.mapController.moveTo(GeoPoint(
-      latitude: position.latitude,
-      longitude: position.longitude,
+      latitude: currentPosition.latitude,
+      longitude: currentPosition.longitude,
     ));
   }
 
   void _onConfirmLocation(ConfirmLocation event, Emitter<MapState> emit) async {
-    final GeoPoint location = await state.mapController.centerMap;
-    final Coordinates coordinates = Coordinates(
-      latitude: location.latitude,
-      longitude: location.longitude,
+    emit(state.copyWith(confirmingCoordinates: true));
+
+    final GeoPoint mapCenter = await state.mapController.centerMap;
+
+    final coordinates = Coordinates(
+      latitude: mapCenter.latitude,
+      longitude: mapCenter.longitude,
     );
 
-    await _addCoordinatesUsecase(coordinates);
+    final Location? location = await _addLocationUsecase(coordinates);
 
-    emit(state.copyWith(hasSelectedCoordinates: true));
+    if (location == null) {
+      emit(state.copyWith(confirmingCoordinates: false));
+      _showMessage('Your location is invalid, please select a new one', emit);
+      return;
+    }
+
+    emit(state.copyWith(selectedLocation: location));
   }
 
   void _showMessage(String message, Emitter<MapState> emit) {

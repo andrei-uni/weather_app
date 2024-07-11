@@ -8,8 +8,8 @@ part 'get_weather_response.g.dart';
 @JsonSerializable(
   createToJson: false,
 )
-class GetWeatherResponse {
-  const GetWeatherResponse({
+class GetWeatherForecastResponse {
+  const GetWeatherForecastResponse({
     required this.location,
     required this.current,
     required this.forecast,
@@ -21,5 +21,5 @@ class GetWeatherResponse {
 
   final ForecastJson forecast;
 
-  factory GetWeatherResponse.fromJson(Map<String, dynamic> json) => _$GetWeatherResponseFromJson(json);
+  factory GetWeatherForecastResponse.fromJson(Map<String, dynamic> json) => _$GetWeatherForecastResponseFromJson(json);
 }

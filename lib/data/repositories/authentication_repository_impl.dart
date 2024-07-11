@@ -13,12 +13,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   final _secureStorage = locator<FlutterSecureStorage>();
 
-  final _key = SecureStorageKeys.weatherApiKey;
-
   final _authenticationStatusController = StreamController<AuthenticationStatus>();
 
   void _checkAuthenticationStatus() async {
-    final apiKey = await _secureStorage.read(key: _key);
+    final apiKey = await _secureStorage.read(key: SecureStorageKeys.weatherApiKey);
 
     if (apiKey == null) {
       _authenticationStatusController.add(AuthenticationStatus.unauthenticated);
@@ -34,13 +32,13 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<void> logIn({required String apiKey}) async {
-    await _secureStorage.write(key: _key, value: apiKey);
+    await _secureStorage.write(key: SecureStorageKeys.weatherApiKey, value: apiKey);
     _authenticationStatusController.add(AuthenticationStatus.authenticated);
   }
 
   @override
   Future<void> logOut() async {
-    await _secureStorage.delete(key: _key);
+    await _secureStorage.deleteAll();
     _authenticationStatusController.add(AuthenticationStatus.unauthenticated);
   }
 }

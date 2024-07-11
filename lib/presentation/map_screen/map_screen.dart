@@ -57,6 +57,19 @@ class MapScreen extends StatelessWidget implements AutoRouteWrapper {
                     size: 48,
                   ),
                 ),
+                if (state.confirmingCoordinates)
+                  Container(
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                if (state.confirmingCoordinates)
+                  const SizedBox.square(
+                    dimension: 60,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeCap: StrokeCap.round,
+                      strokeWidth: 8,
+                    ),
+                  ),
               ],
             );
           },
@@ -74,9 +87,9 @@ class MapScreen extends StatelessWidget implements AutoRouteWrapper {
         );
     }
 
-    if (state.hasSelectedCoordinates) {
+    if (state.selectedLocation != null) {
       context.router.replaceAll(
-        [CurrentWeatherRoute()],
+        [CurrentWeatherRoute(location: state.selectedLocation!)],
         updateExistingRoutes: false,
       );
     }

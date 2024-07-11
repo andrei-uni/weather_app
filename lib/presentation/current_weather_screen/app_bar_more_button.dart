@@ -9,27 +9,30 @@ class AppBarMoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SubmenuButton(
-      menuChildren: [
-        MenuItemButton(
-          onPressed: () {
-            context.router.push(const MapRoute());
-          },
-          child: const Text('Change Location'),
+    return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: PopupMenuButton(
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              onTap: () {
+                context.router.push(const MapRoute());
+              },
+              child: const Text('Add Location'),
+            ),
+            PopupMenuItem(
+              onTap: () {
+                context.read<AuthenticationBloc>().add(Unauthenticate());
+                context.router.replaceAll([AuthenticationRoute()]);
+              },
+              child: const Text('Log Out'),
+            ),
+          ];
+        },
+        child: const Icon(
+          Icons.more_vert,
+          size: 30,
         ),
-        MenuItemButton(
-          onPressed: () {
-            context.read<AuthenticationBloc>().add(Unauthenticate());
-            context.router.replaceAll([
-              const AuthenticationRoute(),
-            ]);
-          },
-          child: const Text('Log Out'),
-        ),
-      ],
-      child: const Icon(
-        Icons.more_vert,
-        size: 30,
       ),
     );
   }

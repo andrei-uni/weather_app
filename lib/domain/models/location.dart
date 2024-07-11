@@ -1,9 +1,13 @@
+import 'package:weather_app/domain/models/coordinates.dart';
+
 class Location {
   const Location({
-    required this.city,
-    required this.localtime,
+    required this.id,
+    required this.name,
+    required this.coordinates,
   });
 
-  final String city;
-  final DateTime localtime;
+  final int id;
+  final String name;
+  final Coordinates coordinates;
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
 import 'package:weather_app/presentation/daily_weather_screen/daily_weather_item_data.dart';
 import 'package:weather_app/presentation/widgets/icon_title_widget.dart';
@@ -30,43 +31,39 @@ class DailyWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<DailyWeatherBloc, DailyWeatherState>(
+      child: BlocBuilder<DailyWeatherBloc, DailyWeatherStateBase>(
         builder: (context, state) {
           switch (state) {
-            case WeatherLoading():
-              return Scaffold(
-                appBar: AppBar(),
-                body: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            case WeatherLoadFail(:final message):
+            case DailyWeatherStateLoadFail(:final errorMessage):
               return Scaffold(
                 body: LoadFailedWidget(
-                  errorMessage: message,
+                  errorMessage: errorMessage,
                   onRetry: () {
                     context.read<DailyWeatherBloc>().add(LoadWeather());
                   },
                 ),
               );
-            case WeatherLoadSuccess():
+            case DailyWeatherState():
               break;
           }
           return Scaffold(
             appBar: AppBar(
               title: IconTitleWidget(
-                title: '${state.dailyWeather.length} days',
+                title: '${state.days} days',
                 icon: Icons.calendar_today,
               ),
               centerTitle: true,
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: [
-                  for (final DailyWeatherItemData data in state.dailyWeatherItems)
-                    DailyWeatherItemWidget(data: data),
-                ],
+              child: Skeletonizer(
+                enabled: state.isLoading,
+                child: Column(
+                  children: [
+                    for (final DailyWeatherItemData data in state.dailyWeatherItems)
+                      DailyWeatherItemWidget(data: data),
+                  ],
+                ),
               ),
             ),
           );

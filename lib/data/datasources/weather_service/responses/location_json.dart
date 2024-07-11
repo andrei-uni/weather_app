@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:weather_app/data/datasources/weather_service/converters/local_time_converter.dart';
 
 part 'location_json.g.dart';
 
@@ -13,7 +14,8 @@ class LocationJson {
   
   final String name;
 
-  final String localtime;
+  @LocalTimeConverter()
+  final DateTime localtime;
 
   factory LocationJson.fromJson(Map<String, dynamic> json) => _$LocationJsonFromJson(json);
 }

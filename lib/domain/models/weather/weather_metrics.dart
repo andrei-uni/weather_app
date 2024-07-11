@@ -1,5 +1,5 @@
 class WeatherMetrics {
-  WeatherMetrics({
+  const WeatherMetrics({
     required this.windSpeed,
     required this.humidity,
     required this.cloudiness,

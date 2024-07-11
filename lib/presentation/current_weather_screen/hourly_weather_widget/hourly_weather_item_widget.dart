@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
-import 'package:weather_app/presentation/current_weather_screen/hourly_weather_item_data.dart';
+import 'package:weather_app/presentation/current_weather_screen/hourly_weather_widget/hourly_weather_item_data.dart';
 import 'package:weather_app/utils/app_colors.dart';
 
 class HourlyWeatherItemWidget extends StatelessWidget {
@@ -27,7 +27,7 @@ class HourlyWeatherItemWidget extends StatelessWidget {
             temperature: itemData.temperature,
           ),
           Icon(
-            itemData.iconData,
+            itemData.icon,
             size: 30,
           ),
           const SizedBox(height: 5),

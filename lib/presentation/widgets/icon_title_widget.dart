@@ -12,19 +12,23 @@ class IconTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          size: 28,
-        ),
-        const SizedBox(width: 7),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-      ],
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 28,
+          ),
+          const SizedBox(width: 7),
+          Text(
+            title,
+            softWrap: false,
+            overflow: TextOverflow.clip,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+        ],
+      ),
     );
   }
 }

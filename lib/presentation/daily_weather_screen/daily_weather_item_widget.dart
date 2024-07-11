@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:weather_app/presentation/daily_weather_screen/daily_weather_item_data.dart';
 import 'package:weather_app/presentation/widgets/temperature_widget.dart';
 
@@ -27,9 +28,11 @@ class DailyWeatherItemWidget extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                data.iconData,
-                size: 30,
+              Skeleton.shade(
+                child: Icon(
+                  data.icon,
+                  size: 30,
+                ),
               ),
               const SizedBox(width: 10),
               Text(
@@ -39,13 +42,19 @@ class DailyWeatherItemWidget extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          TemperatureWidget.medium(
-            temperature: data.dayTemp,
-          ),
-          const SizedBox(width: 8),
-          TemperatureWidget.medium(
-            temperature: data.nightTemp,
-            color: Colors.grey,
+          Skeleton.unite(
+            child: Row(
+              children: [
+                TemperatureWidget.medium(
+                  temperature: data.dayTemp,
+                ),
+                const SizedBox(width: 8),
+                TemperatureWidget.medium(
+                  temperature: data.nightTemp,
+                  color: Colors.grey,
+                ),
+              ],
+            ),
           ),
         ],
       ),

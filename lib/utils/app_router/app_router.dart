@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/domain/models/coordinates.dart';
+import 'package:weather_app/domain/models/location.dart';
 import 'package:weather_app/presentation/authentication_bloc/authentication_bloc.dart';
 import 'package:weather_app/presentation/authentication_screen/authentication_screen.dart';
 import 'package:weather_app/presentation/current_weather_screen/current_weather_screen.dart';

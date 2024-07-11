@@ -1,7 +1,7 @@
 import 'package:weather_app/domain/models/weather/daily_weather.dart';
 
 class DailyForecast {
-  DailyForecast({
+  const DailyForecast({
     required this.dailyWeather,
   });
 
