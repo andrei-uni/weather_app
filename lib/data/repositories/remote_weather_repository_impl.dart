@@ -67,7 +67,7 @@ class RemoteWeatherRepositoryImpl implements RemoteWeatherRepository {
       CurrentWeatherForecast(
         localtime: response.location.localtime,
         weather: currentWeather,
-        currentMetrics: currentMetrics,
+        metrics: currentMetrics,
         hourlyWeather: hourlyWeather,
       ),
     );

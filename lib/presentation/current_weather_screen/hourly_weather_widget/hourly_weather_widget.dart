@@ -24,11 +24,11 @@ class HourlyWeatherWidget extends StatelessWidget {
             controller: pageController,
             itemCount: 6,
             itemBuilder: (context, index) {
-              final itemDatas = itemGetter(index);
+              final List<HourlyWeatherItemData> itemDatas = itemGetter(index);
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  for (final HourlyWeatherItemData data in itemDatas)
+                  for (final data in itemDatas)
                     HourlyWeatherItemWidget(itemData: data),
                 ],
               );

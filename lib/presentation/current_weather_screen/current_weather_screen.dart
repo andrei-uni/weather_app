@@ -73,22 +73,15 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Skeleton.replace(
-                        replacement: Skeleton.shade(
-                          child: Image.asset(
-                            'assets/weather_images/Cloud_Basic.png',
-                          ),
-                        ),
+                      child: Skeleton.shade(
                         child: Image.asset(
                           state.forecast.weather.weatherCondition.toAsset(),
                         ),
                       ),
                     ),
                   ),
-                  Skeleton.unite(
-                    child: TemperatureWidget.large(
-                      temperature: state.forecast.weather.temperature,
-                    ),
+                  TemperatureWidget.large(
+                    temperature: state.forecast.weather.temperature,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 15),
@@ -99,9 +92,9 @@ class CurrentWeatherScreen extends StatelessWidget implements AutoRouteWrapper {
                           ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Skeleton.leaf(
+                  Skeleton.leaf(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: WeatherMetricsWidget(
                         windSpeed: state.windSpeedString,
                         humidity: state.humidityString,

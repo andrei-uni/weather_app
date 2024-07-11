@@ -32,7 +32,7 @@ class WeatherMetricsWidget extends StatelessWidget {
           children: [
             Expanded(
               child: WeatherMetricItem(
-                iconData: Icons.air,
+                icon: Icons.air,
                 metric: windSpeed,
                 label: 'Wind',
               ),
@@ -40,7 +40,7 @@ class WeatherMetricsWidget extends StatelessWidget {
             verticalDivider,
             Expanded(
               child: WeatherMetricItem(
-                iconData: Icons.water_drop,
+                icon: Icons.water_drop,
                 metric: humidity,
                 label: 'Humidity',
               ),
@@ -48,7 +48,7 @@ class WeatherMetricsWidget extends StatelessWidget {
             verticalDivider,
             Expanded(
               child: WeatherMetricItem(
-                iconData: Icons.cloud,
+                icon: Icons.cloud,
                 metric: cloudiness,
                 label: 'Clouds',
               ),

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class WeatherMetricItem extends StatelessWidget {
   const WeatherMetricItem({
     super.key,
-    required this.iconData,
+    required this.icon,
     required this.metric,
     required this.label,
   });
 
-  final IconData iconData;
+  final IconData icon;
   final String metric;
   final String label;
 
@@ -17,7 +17,7 @@ class WeatherMetricItem extends StatelessWidget {
     return Column(
       children: [
         Icon(
-          iconData,
+          icon,
         ),
         const SizedBox(height: 5),
         Text(

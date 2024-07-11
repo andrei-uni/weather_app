@@ -33,15 +33,15 @@ final class CurrentWeatherState extends CurrentWeatherStateBase {
   final bool isLoading;
 
   String get windSpeedString {
-    return "${forecast.currentMetrics.windSpeed.round()} km/h";
+    return "${forecast.metrics.windSpeed.round()} km/h";
   }
 
   String get humidityString {
-    return "${forecast.currentMetrics.humidity}%";
+    return "${forecast.metrics.humidity}%";
   }
 
   String get cloudinessString {
-    return "${forecast.currentMetrics.cloudiness}%";
+    return "${forecast.metrics.cloudiness}%";
   }
 
   List<HourlyWeatherItemData> getHourlyWeatherItems(int pageIndex) {

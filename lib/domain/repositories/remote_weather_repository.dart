@@ -14,5 +14,7 @@ abstract class RemoteWeatherRepository {
     required int days,
   });
 
-  Future<String?> getLocationNameByCoordinates(Coordinates coordinates);
+  Future<String?> getLocationNameByCoordinates(
+    Coordinates coordinates,
+  );
 }

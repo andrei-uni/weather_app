@@ -6,7 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
-import 'package:weather_app/data/datasources/local_locations_database/tables/location_items.dart';
+import 'package:weather_app/data/datasources/local_locations_database/tables/location_table.dart';
 
 part '_open_connection.dart';
 part 'app_database.g.dart';
@@ -62,7 +62,7 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<void> deleteAllData() async {
-    return await transaction(() async {
+    await transaction(() async {
       for (final table in allTables) {
         await delete(table).go();
       }

@@ -2,8 +2,8 @@ part of 'current_weather_bloc.dart';
 
 final CurrentWeatherForecast _fakeForecast = CurrentWeatherForecast(
   localtime: DateTime(2000, 1, 1, 10),
-  weather: const Weather(temperature: 10, weatherCondition: WeatherCondition.clearDay),
-  currentMetrics: const WeatherMetrics(windSpeed: 10, humidity: 10, cloudiness: 10),
+  weather: const Weather(temperature: 10, weatherCondition: WeatherCondition.clouds),
+  metrics: const WeatherMetrics(windSpeed: 10, humidity: 10, cloudiness: 10),
   hourlyWeather: List.filled(
     24,
     const Weather(temperature: 10, weatherCondition: WeatherCondition.clearDay),
